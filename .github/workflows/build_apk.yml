@@ -34,6 +34,7 @@ jobs:
         run: |
           pip install --upgrade flet
           flutter doctor -v
+          flutter pub get
 
       - name: Build APK
         run: |
@@ -43,6 +44,7 @@ jobs:
             --org="com.josemarichal" \
             --build-number=1 \
             --build-version=1.0.0 \
+            --verbose \
             --yes
         env:
           FLET_BUILD_NO_PROMPT: "true"
