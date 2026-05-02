@@ -34,8 +34,8 @@ jobs:
 
       - name: Build APK
         run: |
-          # Use yes to bypass the confirmation prompt
-          yes | flet build apk --project .
+          # Explicitly provide the product name and organization
+          yes | flet build apk --project . --product "ReachOutLoop" --org "com.josemarichal"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
