@@ -4,6 +4,9 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -49,16 +52,15 @@ jobs:
         env:
           FLET_BUILD_NO_PROMPT: "true"
 
+      - name: List Build Directory (Debug)
+        if: always()
+        run: find build -maxdepth 4 || echo "Build directory not found"
+
       - name: Upload APK
-        if: success()
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: reach-out-app-release
-          path: build/apk/*.apk
-
-      - name: Upload build logs on failure
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-logs
-          path: build.log
+          path: |
+            build/**/*.apk
+            build.log
