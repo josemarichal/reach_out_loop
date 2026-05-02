@@ -34,8 +34,8 @@ jobs:
 
       - name: Build APK
         run: |
-          # Explicitly provide the product name and organization
-          yes | flet build apk --project . --product "ReachOutLoop" --org "com.josemarichal"
+          # Use lowercase and underscores for the product name
+          yes | flet build apk --project . --product "reach_out_loop" --org "com.josemarichal"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
