@@ -42,7 +42,8 @@ jobs:
             --product "reach_out_loop" \
             --org "com.josemarichal" \
             --build-number 1 \
-            --build-name "1.0.0"
+            --build-version "1.0.0" \
+            --yes
         env:
           FLET_BUILD_NO_PROMPT: "true"
 
