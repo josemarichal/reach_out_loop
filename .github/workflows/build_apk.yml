@@ -38,11 +38,11 @@ jobs:
       - name: Build APK
         run: |
           flet build apk \
-            --project . \
-            --product "reach_out_loop" \
-            --org "com.josemarichal" \
-            --build-number 1 \
-            --build-version "1.0.0" \
+            --project=. \
+            --product="reach_out_loop" \
+            --org="com.josemarichal" \
+            --build-number=1 \
+            --build-version=1.0.0 \
             --yes
         env:
           FLET_BUILD_NO_PROMPT: "true"
