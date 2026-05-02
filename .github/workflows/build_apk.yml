@@ -27,15 +27,24 @@ jobs:
         with:
           channel: 'stable'
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
       - name: Install dependencies
         run: |
-          pip install flet
-          flutter doctor
+          pip install --upgrade flet
+          flutter doctor -v
 
       - name: Build APK
         run: |
-          # Use lowercase and underscores for the product name
-          yes | flet build apk --project . --product "reach_out_loop" --org "com.josemarichal"
+          flet build apk \
+            --project . \
+            --product "reach_out_loop" \
+            --org "com.josemarichal" \
+            --build-number 1 \
+            --build-name "1.0.0"
+        env:
+          FLET_BUILD_NO_PROMPT: "true"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
