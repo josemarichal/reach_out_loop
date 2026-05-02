@@ -34,7 +34,6 @@ jobs:
         run: |
           pip install --upgrade flet
           flutter doctor -v
-          flutter pub get
 
       - name: Build APK
         run: |
