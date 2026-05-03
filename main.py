@@ -122,11 +122,6 @@ def main(page: ft.Page):
         else:
             update_loop_ui()
             save_state()
-
-    def update_loop_ui():
-        if state["contacts"]:
-            contact_display.value = state["contacts"][state["current_index"]]
-            progress_display.value = f"Contact {state['current_index'] + 1} of {len(state['contacts'])}"
             page.update()
 
     def reset_loop(e):
@@ -134,33 +129,46 @@ def main(page: ft.Page):
         save_state()
         show_selection_view()
 
+    def update_loop_ui():
+        if state["contacts"] and state["current_index"] < len(state["contacts"]):
+            contact_display.value = state["contacts"][state["current_index"]]
+            progress_display.value = f"Contact {state['current_index'] + 1} of {len(state['contacts'])}"
+        else:
+            contact_display.value = "No Contacts Selected"
+            progress_display.value = ""
+
     def show_loop_view():
+        print(f"Opening Loop View for {len(state['contacts'])} contacts")
         page.clean()
         update_loop_ui()
+        
+        # Build the UI
+        loop_content = ft.Column([
+            progress_display,
+            ft.Divider(height=40, color=ft.Colors.TRANSPARENT),
+            ft.Container(
+                content=contact_display,
+                padding=40,
+                alignment=ft.alignment.center,
+                border_radius=20,
+                bgcolor=ft.Colors.BLUE_50,
+            ),
+            ft.Divider(height=60, color=ft.Colors.TRANSPARENT),
+            ft.ElevatedButton(
+                "Next Contact",
+                on_click=next_contact,
+                width=400,
+                height=60,
+                style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=10)),
+                color=ft.Colors.WHITE,
+                bgcolor=ft.Colors.BLUE_600
+            ),
+            ft.TextButton("Edit List / Reset", on_click=reset_loop)
+        ], horizontal_alignment=ft.CrossAxisAlignment.CENTER)
+
         page.add(
             ft.Container(
-                content=ft.Column([
-                    progress_display,
-                    ft.Divider(height=40, color=ft.Colors.TRANSPARENT),
-                    ft.Container(
-                        content=contact_display,
-                        padding=40,
-                        alignment=ft.alignment.center,
-                        border_radius=20,
-                        bgcolor=ft.Colors.BLUE_50,
-                    ),
-                    ft.Divider(height=60, color=ft.Colors.TRANSPARENT),
-                    ft.ElevatedButton(
-                        "Next Contact",
-                        on_click=next_contact,
-                        width=400,
-                        height=60,
-                        style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=10)),
-                        color=ft.Colors.WHITE,
-                        bgcolor=ft.Colors.BLUE_600
-                    ),
-                    ft.TextButton("Edit List / Reset", on_click=reset_loop)
-                ], horizontal_alignment=ft.CrossAxisAlignment.CENTER),
+                content=loop_content,
                 padding=20,
                 alignment=ft.alignment.top_center
             )
