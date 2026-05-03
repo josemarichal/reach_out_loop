@@ -46,47 +46,17 @@ def main(page: ft.Page):
     )
 
     def process_bulk_input(e):
-        lines = bulk_input.value.strip().split("\n")
-        raw_names = [line.strip() for line in lines if line.strip()]
-        if not raw_names:
+        # Extract non-empty names from the bulk text area
+        names = [n.strip() for n in bulk_input.value.split("\n") if n.strip()]
+        if not names:
             return
-        show_filtering_view(raw_names)
-
-    # 2. Filtering View (Check-off list)
-    def show_filtering_view(raw_names):
-        page.clean()
-        checkboxes = []
         
-        for name in raw_names:
-            # Default to checked if they were previously in the active list
-            is_checked = name in state["contacts"] if state["contacts"] else True
-            checkboxes.append(ft.Checkbox(label=name, value=is_checked))
-
-        def confirm_selection(e):
-            state["contacts"] = [cb.label for cb in checkboxes if cb.value]
-            if not state["contacts"]:
-                return
-            state["current_index"] = 0
-            state["is_active"] = True
-            save_state()
-            show_loop_view()
-
-        page.add(
-            ft.Column([
-                ft.Text("Select Contacts", size=30, weight=ft.FontWeight.BOLD),
-                ft.Text("Check the people you want to keep in this loop:"),
-                ft.Column(checkboxes, scroll=ft.ScrollMode.ALWAYS, height=400),
-                ft.ElevatedButton(
-                    "Start Loop with Selected",
-                    on_click=confirm_selection,
-                    width=400,
-                    bgcolor=ft.Colors.BLUE_600,
-                    color=ft.Colors.WHITE
-                ),
-                ft.TextButton("Go Back", on_click=lambda _: show_selection_view())
-            ], spacing=20)
-        )
-        page.update()
+        # Initialize state with all names and start loop
+        state["contacts"] = names
+        state["current_index"] = 0
+        state["is_active"] = True
+        save_state()
+        show_loop_view()
 
     def show_selection_view():
         page.clean()
