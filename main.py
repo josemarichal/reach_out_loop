@@ -149,7 +149,7 @@ def main(page: ft.Page):
             ft.Container(
                 content=contact_display,
                 padding=40,
-                alignment=ft.alignment.center,
+                alignment=ft.Alignment(0, 0), # Center
                 border_radius=20,
                 bgcolor=ft.Colors.BLUE_50,
             ),
@@ -170,7 +170,7 @@ def main(page: ft.Page):
             ft.Container(
                 content=loop_content,
                 padding=20,
-                alignment=ft.alignment.top_center
+                alignment=ft.Alignment(0, -1) # Top Center
             )
         )
         page.update()
